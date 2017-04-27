@@ -4,7 +4,7 @@ function preload() {
 
     game.load.tilemap('mario', 'assets/tilemaps/maps/super_mario.json', null, Phaser.Tilemap.TILED_JSON);
     game.load.image('tiles', 'characte_right.png');
-    game.load.image('player', 'characte_left.png');
+    game.load.image('player', 'character_left.png');
 
 }
 
