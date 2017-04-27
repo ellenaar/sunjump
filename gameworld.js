@@ -3,8 +3,8 @@ var game = new Phaser.Game(800, 600, Phaser.CANVAS, 'phaser-example', { preload:
 function preload() {
 
     game.load.tilemap('mario', 'assets/tilemaps/maps/super_mario.json', null, Phaser.Tilemap.TILED_JSON);
-    game.load.image('tiles', 'assets/tilemaps/tiles/super_mario.png');
-    game.load.image('player', 'assets/sprites/phaser-dude.png');
+    game.load.image('tiles', 'characte_right.png');
+    game.load.image('player', 'characte_left.png');
 
 }
 
