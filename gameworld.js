@@ -1,4 +1,4 @@
-var game = new Phaser.Game(800, 600, Phaser.CANVAS, 'phaser-example', { preload: preload, create: create, update: update, render: render });
+/*var game = new Phaser.Game(800, 600, Phaser.CANVAS, 'phaser-example', { preload: preload, create: create, update: update, render: render });
 
 function preload() {
 
@@ -87,4 +87,59 @@ function render() {
     // game.debug.body(p);
     game.debug.bodyInfo(p, 32, 320);
 
+}*/
+
+var game = new Phaser.Game(500, 400, Phaser.CANVAS, 'phaser-example', { preload: preload, create: create, update: update, render: render });
+
+function preload() {
+
+    game.load.image('playerRight', 'characte_right.png');
+    game.load.image('playerLeft', 'character_left.png');
+
+}
+
+var p;
+
+function create() {
+  game.physics.startSystem(Phaser.Physics.ARCADE);
+
+    game.stage.backgroundColor = '#787878';
+    
+    p = game.add.sprite(40, 200, 'playerLeft');
+    
+    
+    game.physics.enable(p);
+
+    game.physics.arcade.gravity.y = 250;
+
+    p.body.bounce.y = 0.2;
+    p.body.linearDamping = 1;
+    p.body.collideWorldBounds = true;
+    game.camera.follow(p);
+    cursors = game.input.keyboard.createCursorKeys();
+}
+
+function update() {
+
+    p.body.velocity.x = 0;
+        if (p.body.onFloor())
+        {
+            p.body.velocity.y = -200;
+        }
+
+    if (cursors.left.isDown)
+    {
+        p.body.velocity.x = -150;
+        p.loadTexture('playerLeft', 0, false);
+    }
+    else if (cursors.right.isDown)
+    {
+        p.body.velocity.x = 150;
+        p.loadTexture('playerRight', 0, false);
+    }
+
+}
+
+function render() {
+    
 }
