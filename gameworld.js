@@ -6,8 +6,9 @@ Jumper.Play.prototype = {
   preload: function() {
     this.load.image( 'playerRight', 'rsz_character_right.png' );
     this.load.image( 'playerLeft', 'rsz_character_left.png' );
-    this.load.image( 'pixel', 'https://s3-us-west-2.amazonaws.com/s.cdpn.io/836/pixel_1.png' );
-    this.load.image('background', 'http://clipartix.com/wp-content/uploads/2016/08/Sunrise-clipart-2.jpg')
+    this.load.image( 'panel', 'rsz_170-solar-panel-hz.png' );
+    this.load.image( 'peat', 'rsz_maantiede_energia_shutterstock_88741837_peda.png')
+    this.load.image('background', 'http://clipartix.com/wp-content/uploads/2016/08/Sunrise-clipart-2.jpg');
   },
     
   create: function() {
@@ -62,7 +63,8 @@ Jumper.Play.prototype = {
       this.platformYMin = Math.min( this.platformYMin, elem.y );
       if( elem.y > this.camera.y + this.game.height ) {
         elem.kill();
-        this.platformsCreateOne( this.rnd.integerInRange( 0, this.world.width - 50 ), this.platformYMin - 100, 50 );
+        this.platformsCreateOne( this.rnd.integerInRange( 0, this.world.width - 50 ), this.platformYMin - 100, 1 );
+        this.fakesCreateOne( this.rnd.integerInRange( 0, this.world.width - 50 ), this.platformYMin - 100, 1 );
       }
     }, this );
   },
@@ -81,13 +83,18 @@ Jumper.Play.prototype = {
     // platform basic setup
     this.platforms = this.add.group();
     this.platforms.enableBody = true;
-    this.platforms.createMultiple( 100, 'pixel' );
+    this.platforms.createMultiple( 100, 'panel' );
 
+    
+    this.fakePlatforms = this.add.group();
+    this.fakePlatforms.enableBody = true;
+    this.fakePlatforms.createMultiple( 100, 'peat' );
     // create the base platform, with buffer on either side so that the hero doesn't fall through
     this.platformsCreateOne( -16, this.world.height - 16, this.world.width + 16 );
     // create a batch of platforms that start to move up the level
     for( var i = 0; i < 9; i++ ) {
-      this.platformsCreateOne( this.rnd.integerInRange( 0, this.world.width - 50 ), this.world.height - 100 - 100 * i, 50 );
+      this.platformsCreateOne( this.rnd.integerInRange( 0, this.world.width - 50 ), this.world.height - 100 - 100 * i, 1 );
+        this.fakesCreateOne( this.rnd.integerInRange( 0, this.world.width - 50 ), this.world.height - 100 - 100 * i, 1 );
     }
   },
 
@@ -96,9 +103,19 @@ Jumper.Play.prototype = {
     var platform = this.platforms.getFirstDead();
     platform.reset( x, y );
     platform.scale.x = width;
-    platform.scale.y = 16;
+    platform.scale.y = 1;
     platform.body.immovable = true;
     return platform;
+  },
+    
+  fakesCreateOne: function( x, y, width ) {
+    // this is a helper function since writing all of this out can get verbose elsewhere
+    var fakePlatform = this.fakePlatforms.getFirstDead();
+    fakePlatform.reset( x, y );
+    fakePlatform.scale.x = width;
+    fakePlatform.scale.y = 1;
+    fakePlatform.body.immovable = true;
+    return fakePlatform;
   },
 
   heroCreate: function() {
