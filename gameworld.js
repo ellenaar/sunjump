@@ -1,5 +1,6 @@
 var Jumper = function() {};
 Jumper.Play = function() {};
+var w = 300, h = 500;
 
 Jumper.Play.prototype = {
 
@@ -9,6 +10,8 @@ Jumper.Play.prototype = {
     this.load.image( 'panel', 'rsz_170-solar-panel-hz.png' );
     this.load.image( 'peat', 'rsz_maantiede_energia_shutterstock_88741837_peda.png')
     this.load.image('background', 'http://clipartix.com/wp-content/uploads/2016/08/Sunrise-clipart-2.jpg');
+    game.load.image('menu', 'number-buttons-90x90.png', 270, 180);
+    
   },
     
   create: function() {
@@ -38,6 +41,69 @@ Jumper.Play.prototype = {
 
     // cursor controls
     this.cursor = this.input.keyboard.createCursorKeys();
+      
+       /*
+        Code for the pause menu
+    */
+
+    
+      
+    // Create a label to use as a button
+    pause_label = game.add.text(7, 0, 'Pause', { font: '24px Arial', fill: '#000', backgroundColor: "#fff" });
+    pause_label.fixedToCamera = true;
+    pause_label.inputEnabled = true;
+    pause_label.events.onInputUp.add(function () {
+        // When the paus button is pressed, we pause the game
+        game.paused = true;
+        
+        // Then add the menu
+        menu = game.add.sprite(w/2, h/2, 'menu');
+        menu.fixedToCamera = true;
+        menu.anchor.setTo(0.5, 0.5);
+
+        // And a label to illustrate which menu item was chosen. (This is not necessary)
+        choiseLabel = game.add.text(w/2, h-150, 'Click outside menu to continue', { font: '15px Arial', fill: '#fff' });
+        choiseLabel.fixedToCamera = true;
+        choiseLabel.anchor.setTo(0.5, 0.5);
+    });
+
+    // Add a input listener that can help us return from being paused
+    game.input.onDown.add(unpause, self);
+
+    // And finally the method that handels the pause menu
+    function unpause(event){
+        // Only act if paused
+        if(game.paused){
+            // Calculate the corners of the menu
+            var x1 = w/2 - 270/2, x2 = w/2 + 270/2,
+                y1 = h/2 - 180/2, y2 = h/2 + 180/2;
+
+            // Check if the click was inside the menu
+            if(event.x > x1 && event.x < x2 && event.y > y1 && event.y < y2 ){
+                // The choicemap is an array that will help us see which item was clicked
+                var choisemap = ['one', 'two', 'three', 'four', 'five', 'six'];
+
+                // Get menu local coordinates for the click
+                var x = event.x - x1,
+                    y = event.y - y1;
+
+                // Calculate the choice 
+                var choise = Math.floor(x / 90) + 3*Math.floor(y / 90);
+
+                // Display the choice
+                choiseLabel.text = 'You chose menu item: ' + choisemap[choise];
+            }
+            else{
+                // Remove the menu and the label
+                menu.destroy();
+                choiseLabel.destroy();
+
+                // Unpause the game
+                game.paused = false;
+            }
+        }
+    };  
+      
   },
 
   update: function() {
@@ -45,12 +111,15 @@ Jumper.Play.prototype = {
     // the y offset and the height of the world are adjusted
     // to match the highest point the hero has reached
     this.world.setBounds( 0, -this.hero.yChange, this.world.width, this.game.height + this.hero.yChange );
-
+      
+     
     // the built in camera follow methods won't work for our needs
     // this is a custom follow style that will not ever move down, it only moves up
     this.cameraYMin = Math.min( this.cameraYMin, this.hero.y - this.game.height + 130 );
     this.camera.y = this.cameraYMin;
-
+    //update button pause, DOES NOT WORK
+      
+    
     // hero collisions and movement
     this.physics.arcade.collide( this.hero, this.platforms );
     this.heroMove();
@@ -158,7 +227,7 @@ Jumper.Play.prototype = {
 
     // track the maximum amount that the hero has travelled
     this.hero.yChange = Math.max( this.hero.yChange, Math.abs( this.hero.y - this.hero.yOrig ) );
-    
+ 
     // if the hero falls below the camera view, gameover
     if( this.hero.y > this.cameraYMin + this.game.height && this.hero.alive ) {
       this.state.start( 'Play' );
