@@ -18,7 +18,13 @@ Jumper.Play.prototype = {
     // background picture
     var bg = game.add.tileSprite(0, 0, 300, 600,('background'));
     bg.fixedToCamera = true;
-    
+
+
+// A window for the Score 
+// Updates the score in update: Function
+    var scoreText
+    text = this.game.add.text(0, 0,scoreText, { font: " 16px"});
+    text.fixedToCamera = true;
       // scaling
 //    this.scale.scaleMode = Phaser.ScaleManager.SHOW_ALL;
 //    this.scale.maxWidth = this.game.width;
@@ -107,6 +113,11 @@ Jumper.Play.prototype = {
   },
 
   update: function() {
+
+    // Updates the score
+    scoreText =  Math.round(-1*this.hero.y + 464);
+    text.setText("Score: " + scoreText);
+    //console.log(-1 * this.hero.y + 464);
     // this is where the main magic happens
     // the y offset and the height of the world are adjusted
     // to match the highest point the hero has reached
@@ -208,7 +219,7 @@ Jumper.Play.prototype = {
   heroMove: function() {
     // handle the left and right movement of the hero
     if( this.cursor.left.isDown ) {
-      this.hero.body.velocity.x = -200
+      this.hero.body.velocity.x = -200;
         this.hero.loadTexture('playerLeft', 0, false);
     } else if( this.cursor.right.isDown ) {
       this.hero.body.velocity.x = 200;
