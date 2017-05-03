@@ -46,7 +46,7 @@ Jumper.Play.prototype = {
 
     // cursor controls
     this.cursor = this.input.keyboard.createCursorKeys();
-      
+    
        /*
         Code for the pause menu
     */
@@ -114,7 +114,7 @@ Jumper.Play.prototype = {
   update: function() {
 
     // Updates the score
-    scoreText =  Math.round(-1*this.hero.y + 464);
+    scoreText = Math.round(-1*this.hero.y + 464);
     text.setText("Score: " + scoreText);
     //console.log(-1 * this.hero.y + 464);
     // this is where the main magic happens
@@ -172,10 +172,12 @@ Jumper.Play.prototype = {
     // create the base platform, with buffer on either side so that the hero doesn't fall through
     this.platformsCreateOne( -16, this.world.height - 16, this.world.width + 16 );
     // create a batch of platforms that start to move up the level
-    for( var i = 0; i < 9; i++ ) {
-      this.platformsCreateOne( this.rnd.integerInRange( 0, this.world.width - 50 ), this.world.height - 100 - 100 * i, 1 );
-        this.fakesCreateOne( this.rnd.integerInRange( 0, this.world.width - 50 ), this.world.height - 100 - 100 * i, 1 );
+    for( var i = 0; i < 30; i++ ) {
+      this.platformsCreateOne( this.rnd.integerInRange( 0, this.world.width - 50 ), this.world.height - 50 - 50 * i, 1 );
     }
+      for( var i = 0; i < 15; i++ ) {
+      this.fakesCreateOne( this.rnd.integerInRange( 0, this.world.width - 50 ), this.world.height - 100 - 100 * i, 1 );
+        }
   },
 
   platformsCreateOne: function( x, y, width ) {
