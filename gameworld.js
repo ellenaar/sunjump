@@ -1,6 +1,5 @@
 var Jumper = function() {};
 Jumper.Play = function() {};
-var w = 300, h = 500;
 
 Jumper.Play.prototype = {
 
@@ -51,9 +50,7 @@ Jumper.Play.prototype = {
        /*
         Code for the pause menu
     */
-
-    
-      
+      var w = 300, h = 500;
     // Create a label to use as a button
     pause_label = game.add.text(230, 1, 'Pause', { font: '24px Arial', fill: '#000', backgroundColor: "#fff" });
     pause_label.fixedToCamera = true;
@@ -61,6 +58,8 @@ Jumper.Play.prototype = {
     pause_label.events.onInputUp.add(function () {
         // When the pause button is pressed, we pause the game
         game.paused = true;
+        
+        
       
         // Then add the menu
         menu = game.add.sprite(w/2, h/2, 'menu');
@@ -128,6 +127,7 @@ Jumper.Play.prototype = {
     // this is a custom follow style that will not ever move down, it only moves up
     this.cameraYMin = Math.min( this.cameraYMin, this.hero.y - this.game.height + 130 );
     this.camera.y = this.cameraYMin;
+      
     //update button pause, DOES NOT WORK
       
     
