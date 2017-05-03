@@ -55,13 +55,13 @@ Jumper.Play.prototype = {
     
       
     // Create a label to use as a button
-    pause_label = game.add.text(7, 0, 'Pause', { font: '24px Arial', fill: '#000', backgroundColor: "#fff" });
+    pause_label = game.add.text(230, 1, 'Pause', { font: '24px Arial', fill: '#000', backgroundColor: "#fff" });
     pause_label.fixedToCamera = true;
     pause_label.inputEnabled = true;
     pause_label.events.onInputUp.add(function () {
-        // When the paus button is pressed, we pause the game
+        // When the pause button is pressed, we pause the game
         game.paused = true;
-        
+      
         // Then add the menu
         menu = game.add.sprite(w/2, h/2, 'menu');
         menu.fixedToCamera = true;
