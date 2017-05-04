@@ -2,23 +2,26 @@ var Jumper = function() {};
 Jumper.Play = function() {};
 
 Jumper.Play.prototype = {
-
+    
   preload: function() {
     this.load.image( 'playerRight', 'rsz_character_right.png' );
     this.load.image( 'playerLeft', 'rsz_character_left.png' );
     this.load.image( 'panel', 'rsz_170-solar-panel-hz.png' );
     this.load.image( 'peat', 'rsz_maantiede_energia_shutterstock_88741837_peda.png')
-    this.load.image('background', 'http://clipartix.com/wp-content/uploads/2016/08/Sunrise-clipart-2.jpg');
+    this.load.image('background', 'Sunrise-clipart-2.jpg');
+    this.load.image('yellow', 'yellow.png')
     game.load.image('menu', 'number-buttons-90x90.png', 270, 180);
-    
+    game.load.audio('music', 'shooting-stars.mp3')
   },
     
   create: function() {
     // background picture
     var bg = game.add.tileSprite(0, 0, 300, 600,('background'));
     bg.fixedToCamera = true;
-
-
+    
+    music = game.add.audio('music');
+    music.play();
+      
 // A window for the Score 
 // Updates the score in update: Function
     var scoreText
@@ -157,6 +160,7 @@ Jumper.Play.prototype = {
     this.hero = null;
     this.platforms.destroy();
     this.platforms = null;
+    music.stop();
   },
 
   platformsCreate: function() {
@@ -165,7 +169,10 @@ Jumper.Play.prototype = {
     this.platforms.enableBody = true;
     this.platforms.createMultiple( 100, 'panel' );
 
-    
+    this.springs = this.add.group();
+    this.springs.enableBody = true;
+    this.springs.createMultiple( 10, 'yellow' );  
+      
     this.fakePlatforms = this.add.group();
     this.fakePlatforms.enableBody = true;
     this.fakePlatforms.createMultiple( 100, 'peat' );
