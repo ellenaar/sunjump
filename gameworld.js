@@ -9,7 +9,7 @@ Jumper.Play.prototype = {
     this.load.image( 'panel', 'rsz_170-solar-panel-hz.png' );
     this.load.image( 'peat', 'rsz_maantiede_energia_shutterstock_88741837_peda.png')
     this.load.image('background', 'Sunrise-clipart-2.jpg');
-    this.load.image('yellow', 'yellow.png')
+    this.load.image('spring', 'boost.png')
     game.load.image('menu', 'number-buttons-90x90.png', 270, 180);
     game.load.audio('music', 'shooting-stars.mp3')
   },
@@ -136,6 +136,7 @@ Jumper.Play.prototype = {
     
     // hero collisions and movement
     this.physics.arcade.collide( this.hero, this.platforms );
+    this.physics.arcade.collide( this.hero, this.springs );
     this.heroMove();
 
     // for each plat form, find out which is the highest
@@ -171,7 +172,7 @@ Jumper.Play.prototype = {
 
     this.springs = this.add.group();
     this.springs.enableBody = true;
-    this.springs.createMultiple( 10, 'yellow' );  
+    this.springs.createMultiple( 20, 'spring' );  
       
     this.fakePlatforms = this.add.group();
     this.fakePlatforms.enableBody = true;
@@ -184,6 +185,9 @@ Jumper.Play.prototype = {
     }
       for( var i = 0; i < 15; i++ ) {
       this.fakesCreateOne( this.rnd.integerInRange( 0, this.world.width - 50 ), this.world.height - 100 - 100 * i, 1 );
+        }
+      for( var i = 0; i < 20; i++ ) {
+      this.springsCreateOne( this.rnd.integerInRange( 0, this.world.width - 50 ), this.world.height - 860 - 974 * i, 1 );
         }
   },
 
@@ -200,11 +204,21 @@ Jumper.Play.prototype = {
   fakesCreateOne: function( x, y, width ) {
     // this is a helper function since writing all of this out can get verbose elsewhere
     var fakePlatform = this.fakePlatforms.getFirstDead();
-    fakePlatform.reset( x, y );
+    fakePlatform.reset(x, y)
     fakePlatform.scale.x = width;
     fakePlatform.scale.y = 1;
     fakePlatform.body.immovable = true;
     return fakePlatform;
+  },
+    
+  springsCreateOne: function( x, y, width ) {
+    // this is a helper function since writing all of this out can get verbose elsewhere
+    var spring = this.springs.getFirstDead();
+    spring.reset( x, y );
+    spring.scale.x = width;
+    spring.scale.y = 1;
+    spring.body.immovable = true;
+    return spring;
   },
 
   heroCreate: function() {
@@ -236,11 +250,16 @@ Jumper.Play.prototype = {
     } else {
       this.hero.body.velocity.x = 0;
     }
-
+      
     // handle hero jumping
-    if(this.hero.body.touching.down ) {
+      if(this.physics.arcade.collide( this.hero, this.springs )) {
+       this.hero.body.velocity.y = -600;
+    } else if(this.hero.body.touching.down && this.physics.arcade.collide( this.hero, this.platforms )) {
+        this.hero.body.velocity.y = -350;
+    } else if(this.hero.body.touching.down) {
+    //this.hero.body.touching.platforms
       this.hero.body.velocity.y = -350;
-    } 
+    }
     
     // wrap world coordinated so that you can warp from left to right and right to left
     this.world.wrap( this.hero, this.hero.width / 2, false );
