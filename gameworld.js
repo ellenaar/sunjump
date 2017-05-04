@@ -4,8 +4,8 @@ Jumper.Play = function() {};
 Jumper.Play.prototype = {
     
   preload: function() {
-    this.load.image( 'playerRight', 'rsz_character_right.png' );
-    this.load.image( 'playerLeft', 'rsz_character_left.png' );
+    this.load.image( 'playerRight', 'lobbari_right.png' );
+    this.load.image( 'playerLeft', 'lobbari_left.png' );
     this.load.image( 'panel', 'rsz_170-solar-panel-hz.png' );
     this.load.image( 'peat', 'rsz_maantiede_energia_shutterstock_88741837_peda.png')
     this.load.image('background', 'Sunrise-clipart-2.jpg');
@@ -209,7 +209,7 @@ Jumper.Play.prototype = {
 
   heroCreate: function() {
     // basic hero setup
-    this.hero = game.add.sprite( this.world.centerX, this.world.height - 36, 'playerRight' );
+    this.hero = game.add.sprite( this.world.centerX, this.world.height - 46, 'playerRight' );
     this.hero.anchor.set( 0.5 );
     
     // track where the hero started and how much the distance has changed from that point
