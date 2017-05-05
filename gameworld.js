@@ -187,7 +187,7 @@ Jumper.Play.prototype = {
       this.fakesCreateOne( this.rnd.integerInRange( 0, this.world.width - 50 ), this.world.height - 100 - 100 * i, 1 );
         }
       for( var i = 0; i < 20; i++ ) {
-      this.springsCreateOne( this.rnd.integerInRange( 0, this.world.width - 50 ), this.world.height - 860 - 974 * i, 1 );
+      this.springsCreateOne( this.rnd.integerInRange( 0, this.world.width - 50 ), this.world.height - 1000 - 975 * i, 1 );
         }
   },
 
@@ -269,11 +269,16 @@ Jumper.Play.prototype = {
  
     // if the hero falls below the camera view, gameover
     if( this.hero.y > this.cameraYMin + this.game.height && this.hero.alive ) {
-      this.state.start( 'Play' );
+      this.state.start( 'Menu' );
     }
   }
 }
 
 var game = new Phaser.Game( 300, 500, Phaser.CANVAS, '' );
 game.state.add( 'Play', Jumper.Play );
-game.state.start( 'Play' );
+
+
+game.state.add('Menu', GameMenu)
+game.state.start('Menu')
+//Phaser.Utils.mixinPrototype(GameMenu.prototype, mixins);
+//game.state.start( 'Play' );

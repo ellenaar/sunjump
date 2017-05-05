@@ -1,21 +1,42 @@
-Jumper.Title = function (game) {
-var score;
-var scoreH;
-};
-Jumper.Title.prototype = {
-    create: function () {
-		score = null;
-		scoreH = null;
-		this.game.add.sprite(0,0, 'background');
-		var title = this.game.add.sprite(368/2,-100,'playerLeft');
-		title.anchor.setTo(0.5,0.5);
-		this.game.add.tween(title).to({ y: 100 },2000, Phaser.Easing.Elastic.InOut, true, 0);
-		var playButton = this.game.add.button(368/2,850,"play",this.play,this,1,0)
-		playButton.anchor.setTo(0.5,0.5);
-		this.game.add.tween(playButton).to({ y: 400 },2000, Phaser.Easing.Elastic.InOut, true, 0);
+var GameMenu = function() {};
+
+GameMenu.prototype = {
+    
+  menuConfig: {
+    startY: 260,
+    startX: 30
+  },
+    
+    preload: function() {
+        this.load.image('background', 'Sunrise-clipart-2.jpg');
     },
-	play : function () {
-		this.game.state.start( 'Play' );
-	},
-	
+
+  init: function () {
+    this.titleText = game.make.text(game.world.centerX, 100, "Sun Jump", {
+      font: 'bold 40pt TheMinion',
+      fill: '#000000',
+      align: 'center'
+    });
+    this.titleText.setShadow(3, 3, 'rgba(0,0,0,0.5)', 5);
+    this.titleText.anchor.set(0.5);
+    this.optionCount = 1;
+  },
+
+  create: function () {
+
+    game.stage.disableVisibilityChange = true;
+    game.add.sprite(0, 0, 'background');
+    game.add.existing(this.titleText);
+    
+      game.input.onDown.add(start, self);
+      
+      function start(event){
+          game.state.start('Play');
+      }
+          //    this.addMenuOption('Start', function () {
+//      game.state.start('Play');
+//    });
+  }
 };
+
+//Phaser.Utils.mixinPrototype(GameMenu.prototype, mixins);
