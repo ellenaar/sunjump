@@ -10,6 +10,7 @@ Jumper.Play.prototype = {
     this.load.image( 'peat', 'tekstuuri.png')
     this.load.image('background', 'Sunrise-clipart-2.jpg');
     this.load.image('spring', 'boost.png')
+    this.load.image('musicIcon', 'nuottiavain1.png')
     game.load.image('menu', 'number-buttons-90x90.png', 270, 180);
     game.load.audio('music', 'shooting-stars.mp3')
   },
@@ -49,7 +50,18 @@ Jumper.Play.prototype = {
 
     // cursor controls
     this.cursor = this.input.keyboard.createCursorKeys();
-    
+      
+      
+    // music Icon
+    var kuva = game.add.image(260, 25, 'musicIcon')
+    kuva.inputEnabled = true;
+    kuva.events.onInputDown.add(musicOff, self);
+    kuva.fixedToCamera = true;
+      
+      function musicOff(event){
+          music.stop();
+      }
+      
        /*
         Code for the pause menu
     */
@@ -146,9 +158,6 @@ Jumper.Play.prototype = {
     // this is a custom follow style that will not ever move down, it only moves up
     this.cameraYMin = Math.min( this.cameraYMin, this.hero.y - this.game.height + 130 );
     this.camera.y = this.cameraYMin;
-      
-    //update button pause, DOES NOT WORK
-      
     
     // hero collisions and movement
     this.physics.arcade.collide( this.hero, this.platforms );
