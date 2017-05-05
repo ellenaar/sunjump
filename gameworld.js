@@ -55,9 +55,25 @@ Jumper.Play.prototype = {
     */
       var w = 300, h = 500;
     // Create a label to use as a button
-    pause_label = game.add.text(230, 1, 'Pause', { font: '24px Arial', fill: '#000', backgroundColor: "#fff" });
+    pause_label = game.add.text(229, 2, 'PAUSE', { 
+        font: '20px Arial', 
+        fill: '#76EE00'
+    });
+    pause_label.setShadow(2, 2, 'rgba(0,0,0,0.5)', 5);
     pause_label.fixedToCamera = true;
     pause_label.inputEnabled = true;
+      
+    pause_label.events.onInputOver.add(over, this);
+    pause_label.events.onInputOut.add(out, this);
+      
+    function over(item){
+          item.alpha=.5;
+      }
+      
+    function out(item){
+          item.alpha=1;
+      }
+      
     pause_label.events.onInputUp.add(function () {
         // When the pause button is pressed, we pause the game
         game.paused = true;
