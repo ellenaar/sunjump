@@ -7,7 +7,7 @@ Jumper.Play.prototype = {
     this.load.image( 'playerRight', 'lobbari_right.png' );
     this.load.image( 'playerLeft', 'lobbari_left.png' );
     this.load.image( 'panel', 'rsz_170-solar-panel-hz.png' );
-    this.load.image( 'peat', 'rsz_maantiede_energia_shutterstock_88741837_peda.png')
+    this.load.image( 'peat', 'tekstuuri.png')
     this.load.image('background', 'Sunrise-clipart-2.jpg');
     this.load.image('spring', 'boost.png')
     game.load.image('menu', 'number-buttons-90x90.png', 270, 180);
@@ -70,7 +70,7 @@ Jumper.Play.prototype = {
           item.alpha=.5;
       }
       
-    function out(item){
+      function out(item){
           item.alpha=1;
       }
       
@@ -293,8 +293,10 @@ Jumper.Play.prototype = {
 var game = new Phaser.Game( 300, 500, Phaser.CANVAS, '' );
 game.state.add( 'Play', Jumper.Play );
 
-
 game.state.add('Menu', GameMenu)
 game.state.start('Menu')
+
+//game.state.add('Menu', GameMenu)
+//game.state.start('Menu')
 //Phaser.Utils.mixinPrototype(GameMenu.prototype, mixins);
 //game.state.start( 'Play' );
