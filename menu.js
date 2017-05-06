@@ -34,6 +34,8 @@ GameMenu.prototype = {
         align: 'center'});
     this.infoLabel.setShadow(3, 3, 'rgba(0,0,0,0.5)', 5);
     this.infoLabel.anchor.set(0.5);
+
+
     },
 
   create: function () {
@@ -43,6 +45,7 @@ GameMenu.prototype = {
     game.add.existing(this.titleText);
     var text = game.add.existing(this.playLabel);
     var infoText = game.add.existing(this.infoLabel);
+
     
       // game.input.onDown.add(start, self);
      // game.input.activePointer.isDown.add(start, self);
@@ -56,6 +59,10 @@ GameMenu.prototype = {
       infoText.events.onInputOver.add(over, this);
       infoText.events.onInputOut.add(out, this);
       infoText.events.onInputDown.add(info, self);
+
+
+
+
       
       function info(event){
           game.state.add('Info', Info);

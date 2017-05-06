@@ -1,3 +1,6 @@
+
+
+
 var Jumper = function() {};
 Jumper.Play = function() {};
 
@@ -145,7 +148,7 @@ Jumper.Play.prototype = {
   update: function() {
 
     // Updates the score
-    scoreText = Math.round(-1*this.hero.y + 464);
+    scoreText = Math.round(-1*this.camera.y);
     text.setText("Score: " + scoreText);
     //console.log(-1 * this.hero.y + 464);
     // this is where the main magic happens
@@ -229,7 +232,7 @@ Jumper.Play.prototype = {
   fakesCreateOne: function( x, y, width ) {
     // this is a helper function since writing all of this out can get verbose elsewhere
     var fakePlatform = this.fakePlatforms.getFirstDead();
-    fakePlatform.reset(x, y)
+    fakePlatform.reset( x, y );
     fakePlatform.scale.x = width;
     fakePlatform.scale.y = 1;
     fakePlatform.body.immovable = true;
@@ -293,15 +296,20 @@ Jumper.Play.prototype = {
     this.hero.yChange = Math.max( this.hero.yChange, Math.abs( this.hero.y - this.hero.yOrig ) );
  
     // if the hero falls below the camera view, gameover
+    //Update highscore
     if( this.hero.y > this.cameraYMin + this.game.height && this.hero.alive ) {
-      this.state.start( 'Menu' );
+        if(localStorage.getItem("Highscore") == String(NaN) || localStorage.getItem("Highscore") < scoreText){
+            localStorage.setItem("Highscore", scoreText);
+        } 
+        console.log(localStorage.getItem("Highscore"));
+      this.state.start( 'Highscore' );
     }
   }
 }
 
 var game = new Phaser.Game( 300, 500, Phaser.CANVAS, '' );
 game.state.add( 'Play', Jumper.Play );
-
+game.state.add('Highscore', Highscore)
 game.state.add('Menu', GameMenu)
 game.state.start('Menu')
 
