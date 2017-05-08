@@ -44,6 +44,7 @@ Jumper.Play.prototype = {
     // camera and platform tracking vars
     this.cameraYMin = 99999;
     this.platformYMin = 99999;
+    this.fakePlatformYMin= 99999;
 
     // create platforms
     this.platformsCreate();
@@ -176,9 +177,15 @@ Jumper.Play.prototype = {
       if( elem.y > this.camera.y + this.game.height ) {
         elem.kill();
         this.platformsCreateOne( this.rnd.integerInRange( 0, this.world.width - 50 ), this.platformYMin - 100, 1 );
-        this.fakesCreateOne( this.rnd.integerInRange( 0, this.world.width - 50 ), this.platformYMin - 100, 1 );
       }
     }, this );
+    this.fakePlatforms.forEachAlive( function(elem) {
+        this.fakePlatformYMin = Math.min(this.fakePlatformYMin, elem.y);
+        if( elem.y > this.camera.y + this.game.height ){
+            elem.kill();
+            this.fakesCreateOne ( this.rnd.integerInRange( 0, this.world.width - 50), this.fakePlatformYMin - 100, 1);
+        }
+    }, this)
   },
 
   shutdown: function() {
