@@ -59,11 +59,29 @@ Jumper.Play.prototype = {
     // music Icon
     var kuva = game.add.image(260, 25, 'musicIcon')
     kuva.inputEnabled = true;
-    kuva.events.onInputDown.add(musicOff, self);
     kuva.fixedToCamera = true;
+    var IconSwitch = true;
+    console.log(IconSwitch + "1");
+    kuva.events.onInputDown.add(tester, self);
+    
+    function tester(event){
+        if(this.IconSwitch){
+            musicOff();
+        }else{
+            musicOn();
+        }   
+    }  
+    
       
       function musicOff(event){
           music.stop();
+          this.IconSwitch = false;
+      }
+      
+      function musicOn(event){
+          music.play();
+          this.IconSwitch = true; 
+          console.log(IconSwitch + "3");
       }
       
        /*
