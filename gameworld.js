@@ -167,6 +167,9 @@ Jumper.Play.prototype = {
     this.physics.arcade.collide( this.hero, this.springs );
     this.physics.arcade.collide(this.hero, this.shoes);
     this.heroMove();
+    if(boostMultiplier == 2){
+        this.cameraFlash();
+    }
 
     // for each plat form, find out which is the highest
     // if one goes below the camera view, then create a new one at a distance from the highest one
@@ -239,7 +242,9 @@ Jumper.Play.prototype = {
       this.springsCreateOne( this.rnd.integerInRange( 0, this.world.width - 50 ), this.world.height - 1000 - 975 * i, 1 );
         }
 
-        this.shoesCreateOne(this.rnd.integerInRange(0,this.world.width - 50), 200 , 1);
+        this.shoesCreateOne(this.rnd.integerInRange(0,this.world.width - 50), this.world.height/2 - 20 , 1);
+        console.log(this.world.height);
+    
     
   },
 
@@ -307,6 +312,10 @@ Jumper.Play.prototype = {
     boostMultiplier = 1;
   },
 
+  cameraFlash: function() {
+    game.camera.flash(0xffff00,500);
+  },
+
   heroMove: function() {
 
     if( this.cursor.left.isDown ) {
@@ -319,25 +328,26 @@ Jumper.Play.prototype = {
       this.hero.body.velocity.x = 0;
     }
       
-    if(this.physics.arcade.collide(this.hero, this.shoes)){
+    if(this.physics.arcade.overlap(this.hero, this.shoes)){
         this.hero.body.velocity.y = -600;
         //game.time.events.add(Phaser.Timer.Second * 10, functionShoes, this);
         shoeSound.play();
-        game.camera.flash(0xff0000,500);
+        this.cameraFlash();
         boostMultiplier = 2;
-        game.time.events.add(Phaser.Timer.SECOND * 8, this.shoeTurbo, this);
+        game.time.events.add(Phaser.Timer.SECOND * 6, this.shoeTurbo, this);
 
     }
 
 
       if(this.physics.arcade.collide( this.hero, this.springs )) {
        this.hero.body.velocity.y = -600;
-    } else if(this.hero.body.touching.down && this.physics.arcade.collide( this.hero, this.platforms )) {
+    } else if(this.hero.body.touching.down && this.physics.arcade.collide( this.hero, this.platforms ) ) {
         this.hero.body.velocity.y = -350 * boostMultiplier;
     } else if(this.hero.body.touching.down && this.cameraYMin == 84) {
       this.hero.body.velocity.y = 0;
-    } else if(this.hero.body.touching.down){
+    } else if(this.hero.body.touching.down ){
         this.hero.body.velocity.y = -350 * boostMultiplier;
+        console.log("yo");
     }
     
     // wrap world coordinated so that you can warp from left to right and right to left
