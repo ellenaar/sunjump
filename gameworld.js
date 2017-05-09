@@ -30,7 +30,7 @@ Jumper.Play.prototype = {
     music = game.add.audio('music');
     var IconSwitch = true;
       
-        tester();
+    tester();
 
 // A window for the Score 
 // Updates the score in update: Function
@@ -67,6 +67,10 @@ Jumper.Play.prototype = {
     kuva.fixedToCamera = true;
     //console.log(IconSwitch + "1");
     kuva.events.onInputDown.add(tester, self);
+      
+    var MusicButton;  
+    MusicButton = game.input.keyboard.addKey(Phaser.Keyboard.M);
+    MusicButton.onDown.add(tester, self);
     
     function tester(event){
         if(this.IconSwitch){
