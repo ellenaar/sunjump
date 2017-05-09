@@ -8,7 +8,7 @@ GameMenu.prototype = {
   },
     
     preload: function() {
-        this.load.image('background', 'Sunrise-clipart-2.jpg');
+        this.load.image('background', 'Pictures/Sunrise-clipart-2.jpg');
     },
 
   init: function () {

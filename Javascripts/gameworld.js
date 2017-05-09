@@ -4,17 +4,16 @@ Jumper.Play = function() {};
 Jumper.Play.prototype = {
 
   preload: function() {
-    this.load.image( 'playerRight', 'lobbari_right.png' );
-    this.load.image( 'playerLeft', 'lobbari_left.png' );
-    this.load.image( 'panel', 'rsz_170-solar-panel-hz.png' );
-    this.load.image( 'peat', 'tekstuuri.png')
-    this.load.image('background', 'Sunrise-clipart-2.jpg');
-    this.load.image('spring', 'boost.png');
-    this.load.image('musicIcon', 'nuottiavain1.png');
-    this.load.image('shoe', 'shoes.png');
-    game.load.image('menu', 'number-buttons-90x90.png', 270, 180);
-    game.load.audio('music', 'shooting-stars.mp3');
-    this.load.audio('shoeSound', 'aaniefekti.mp3');
+    this.load.image( 'playerRight', 'Pictures/lobbari_right.png' );
+    this.load.image( 'playerLeft', 'Pictures/lobbari_left.png' );
+    this.load.image( 'panel', 'Pictures/rsz_170-solar-panel-hz.png' );
+    this.load.image( 'peat', 'Pictures/tekstuuri.png')
+    this.load.image('background', 'Pictures/Sunrise-clipart-2.jpg');
+    this.load.image('spring', 'Pictures/boost.png');
+    this.load.image('musicIcon', 'Pictures/nuottiavain1.png');
+    this.load.image('shoe', 'Pictures/shoes.png');
+    game.load.audio('music', 'Sounds/shooting-stars.mp3');
+    this.load.audio('shoeSound', 'Sounds/aaniefekti.mp3');
   },
 
     
@@ -64,7 +63,6 @@ Jumper.Play.prototype = {
     var kuva = game.add.image(260, 25, 'musicIcon')
     kuva.inputEnabled = true;
     kuva.fixedToCamera = true;
-    //console.log(IconSwitch + "1");
     kuva.events.onInputDown.add(tester, self);
       
     var MusicButton;  
@@ -87,7 +85,6 @@ Jumper.Play.prototype = {
       function musicOn(event){
           music.play();
           this.IconSwitch = true; 
-          console.log(IconSwitch + "3");
       }
       
        /*
@@ -149,7 +146,6 @@ Jumper.Play.prototype = {
     // Updates the score
     scoreText = Math.round(-1*this.camera.y);
     text.setText("Score: " + scoreText);
-    //console.log(-1 * this.hero.y + 464);
     // this is where the main magic happens
     // the y offset and the height of the world are adjusted
     // to match the highest point the hero has reached
@@ -242,7 +238,6 @@ Jumper.Play.prototype = {
         }
 
         this.shoesCreateOne(this.rnd.integerInRange(0,this.world.width - 50), this.world.height/2 - 20 , 1);
-        console.log(this.world.height);
     
     
   },
@@ -346,7 +341,6 @@ Jumper.Play.prototype = {
       this.hero.body.velocity.y = 0;
     } else if(this.hero.body.touching.down ){
         this.hero.body.velocity.y = -350 * boostMultiplier;
-        console.log("yo");
     }
     
     // wrap world coordinated so that you can warp from left to right and right to left
