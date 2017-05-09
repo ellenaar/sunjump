@@ -19,6 +19,7 @@ Jumper.Play.prototype = {
   },
     
   create: function() {
+
     // background picture
     var bg = game.add.tileSprite(0, 0, 300, 600,('background'));
     bg.fixedToCamera = true;
@@ -166,6 +167,8 @@ Jumper.Play.prototype = {
 
   update: function() {
 
+
+
     // Updates the score
     scoreText = Math.round(-1*this.camera.y);
     text.setText("Score: " + scoreText);
@@ -189,18 +192,26 @@ Jumper.Play.prototype = {
     // for each plat form, find out which is the highest
     // if one goes below the camera view, then create a new one at a distance from the highest one
     // these are pooled so they are very performant
-      
+    
+
+    //width of the platforms decreases over time
     this.platforms.forEachAlive( function( elem ) {
       this.platformYMin = Math.min( this.platformYMin, elem.y );
       if( elem.y > this.camera.y + this.game.height ) {
+            
+        if (elem.scale.x>1){
+            platFormDecreaser = 1
+        } else{
+            platFormDecreaser = elem.scale.x 
+        }
         elem.kill();
-        this.platformsCreateOne( this.rnd.integerInRange( 0, this.world.width - 50 ), this.platformYMin - 100, 1 );
+        this.platformsCreateOne( this.rnd.integerInRange( 0, this.world.width - 50 ), this.platformYMin - 100, platFormDecreaser * 0.95  );
       }
     }, this );
-    this.fakePlatforms.forEachAlive( function(elem) {
-        this.fakePlatformYMin = Math.min(this.fakePlatformYMin, elem.y);
-        if( elem.y > this.camera.y + this.game.height ){
-            elem.kill();
+    this.fakePlatforms.forEachAlive( function(elem2) {
+        this.fakePlatformYMin = Math.min(this.fakePlatformYMin, elem2.y);
+        if( elem2.y > this.camera.y + this.game.height ){
+            elem2.kill();
             this.fakesCreateOne ( this.rnd.integerInRange( 0, this.world.width - 50), this.fakePlatformYMin - 100, 1);
         }
     }, this)
@@ -233,7 +244,7 @@ Jumper.Play.prototype = {
     // create the base platform, with buffer on either side so that the hero doesn't fall through
     this.platformsCreateOne( -16, this.world.height - 16, this.world.width + 16 );
     // create a batch of platforms that start to move up the level
-    for( var i = 0; i < 30; i++ ) {
+    for( var i = 0; i < 15; i++ ) {
       this.platformsCreateOne( this.rnd.integerInRange( 0, this.world.width - 50 ), this.world.height - 50 - 50 * i, 1 );
     }
       for( var i = 0; i < 15; i++ ) {
