@@ -16,7 +16,7 @@ Highscore.prototype = {
         this.titleText.anchor.set(0.5);
         this.optionCount = 1;
         
-        this.instruText = game.make.text(game.world.centerX, 250, "Your score: " + scoreText + " Your Highscore: " + localStorage.getItem("Highscore") , {
+        this.instruText = game.make.text(game.world.centerX, 250, "Your score: " + scoreText + "    Your Highscore: " + localStorage.getItem("Highscore") , {
           font: '16pt TheMinion',
           fill: '#00000',
             align: 'center',
