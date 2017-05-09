@@ -7,7 +7,7 @@ Info.prototype = {
     },
     
     init: function () {
-        this.titleText = game.make.text(game.world.centerX, 100, " Info ", {
+        this.titleText = game.make.text(game.world.centerX, 80, " Info ", {
           font: 'bold 40pt TheMinion',
           fill: '#76EE00',
           align: 'center'
@@ -16,7 +16,7 @@ Info.prototype = {
         this.titleText.anchor.set(0.5);
         this.optionCount = 1;
         
-        this.instruText = game.make.text(game.world.centerX, 250, " You are a lobbyist. Jump on solar panels to reach the decision makers. Watch out for bad soil that has been ruined by peat overuse. ", {
+        this.instruText = game.make.text(game.world.centerX, 250, " You are a lobbyist. Jump on solar panels to reach the decision makers. Watch out for bad soil that has been ruined by peat overuse. \n Press P to pause the game. \n Press M to switch on/off the music. ", {
           font: '16pt TheMinion',
           fill: '#00000',
             align: 'center',
@@ -30,7 +30,7 @@ Info.prototype = {
         font: '50px Arial', 
         fill: '#76EE00',
         align: 'center'});
-        this.playLabel.setShadow(3, 3, 'rgba(0,0,0,0.7)', 1);
+        this.playLabel.setShadow(2, 2, 'rgba(0,0,0,0.7)', 5);
         this.playLabel.anchor.set(0.5);
     },
     

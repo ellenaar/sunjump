@@ -19,7 +19,7 @@ function createText(){
     text.anchor.setTo(0.5);
 
     text.font = 'Revalia';
-    text.fontSize = 25;
+    text.fontSize = '20pt';
 
     //  x0, y0 - x1, y1
     grd = text.context.createLinearGradient(0, 0, 0, text.canvas.height);
@@ -44,7 +44,7 @@ Highscore.prototype = {
     
   init: function () {
         this.titleText = game.make.text(game.world.centerX, 100, " Game Over ", {
-          font: 'bold 37pt TheMinion',
+          font: 'bold 32pt TheMinion',
           fill: '#76EE00',
           align: 'center'
         });

@@ -29,7 +29,6 @@ Jumper.Play.prototype = {
     
     music = game.add.audio('music');
     var IconSwitch = true;
-      
     tester();
 
 // A window for the Score 
@@ -97,7 +96,7 @@ Jumper.Play.prototype = {
       var w = 300, h = 500;
     // Create a label to use as a button
     pause_label = game.add.text(229, 2, 'PAUSE', { 
-        font: '20px Arial', 
+        font: '20px TheMinion', 
         fill: '#76EE00'
     });
     pause_label.setShadow(2, 2, 'rgba(0,0,0,0.5)', 5);
