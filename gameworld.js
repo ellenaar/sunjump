@@ -212,7 +212,7 @@ Jumper.Play.prototype = {
             platFormDecreaser = elem.scale.x 
         }
         elem.kill();
-        this.platformsCreateOne( this.rnd.integerInRange( 0, this.world.width - 50 ), this.platformYMin - 100, platFormDecreaser * 0.95  );
+        this.platformsCreateOne( this.rnd.integerInRange( 0, this.world.width - 50 ), this.platformYMin - 100, platFormDecreaser * 0.8  );
       }
     }, this );
     this.fakePlatforms.forEachAlive( function(elem2) {
@@ -255,7 +255,7 @@ Jumper.Play.prototype = {
       this.platformsCreateOne( this.rnd.integerInRange( 0, this.world.width - 50 ), this.world.height - 50 - 50 * i, 1 );
     }
       for( var i = 0; i < 15; i++ ) {
-      this.fakesCreateOne( this.rnd.integerInRange( 0, this.world.width - 50 ), this.world.height - 100 - 100 * i, 1 );
+      this.fakesCreateOne( this.rnd.integerInRange( 0, this.world.width - 50 ), this.world.height - 1000 - 100 - 100 * i, 1 );
         }
       for( var i = 0; i < 20; i++ ) {
       this.springsCreateOne( this.rnd.integerInRange( 0, this.world.width - 50 ), this.world.height - 1000 - 975 * i, 1 );
@@ -274,6 +274,7 @@ Jumper.Play.prototype = {
     
   fakesCreateOne: function( x, y, width ) {
     // this is a helper function since writing all of this out can get verbose elsewhere
+
     var fakePlatform = this.fakePlatforms.getFirstDead();
     fakePlatform.reset( x, y );
     fakePlatform.scale.x = width;
@@ -327,9 +328,10 @@ Jumper.Play.prototype = {
        this.hero.body.velocity.y = -600;
     } else if(this.hero.body.touching.down && this.physics.arcade.collide( this.hero, this.platforms )) {
         this.hero.body.velocity.y = -350;
-    } else if(this.hero.body.touching.down) {
-    //this.hero.body.touching.platforms
-      this.hero.body.velocity.y = -350;
+    } else if(this.hero.body.touching.down && this.cameraYMin == 84) {
+      this.hero.body.velocity.y = 0;
+    } else if(this.hero.body.touching.down){
+        this.hero.body.velocity.y = -350;
     }
     
     // wrap world coordinated so that you can warp from left to right and right to left
@@ -344,7 +346,6 @@ Jumper.Play.prototype = {
         if(localStorage.getItem("Highscore") == String(NaN) || localStorage.getItem("Highscore") < scoreText){
             localStorage.setItem("Highscore", scoreText);
         } 
-        console.log(localStorage.getItem("Highscore"));
       this.state.start( 'Highscore' );
     }
   }
