@@ -25,12 +25,17 @@ Jumper.Play.prototype = {
     bg.fixedToCamera = true;
     
     music = game.add.audio('music');
-    music.play();
+    var IconSwitch = true;
+    
+    if(this.IconSwitch){
+        music.play();
+        console.log(this.IconSwitch + "paska toimii");
+    }
       
 // A window for the Score 
 // Updates the score in update: Function
     var scoreText
-    text = this.game.add.text(0, 0,scoreText, { font: " 16px"});
+    text = this.game.add.text(0, 0,scoreText, { font: " 18px"});
     text.fixedToCamera = true;
       // scaling
 //    this.scale.scaleMode = Phaser.ScaleManager.SHOW_ALL;
@@ -55,13 +60,11 @@ Jumper.Play.prototype = {
 
     // cursor controls
     this.cursor = this.input.keyboard.createCursorKeys();
-      
-      
-    // music Icon
+        
+    // music Icon switches 
     var kuva = game.add.image(260, 25, 'musicIcon')
     kuva.inputEnabled = true;
     kuva.fixedToCamera = true;
-    var IconSwitch = true;
     console.log(IconSwitch + "1");
     kuva.events.onInputDown.add(tester, self);
     
@@ -73,7 +76,6 @@ Jumper.Play.prototype = {
         }   
     }  
     
-      
       function musicOff(event){
           music.stop();
           this.IconSwitch = false;
@@ -100,6 +102,9 @@ Jumper.Play.prototype = {
       
     pause_label.events.onInputOver.add(over, this);
     pause_label.events.onInputOut.add(out, this);
+     var pauseButton;  
+    pauseButton.input.keyboard.addKey(Phaser.Keyboard.P);
+    pauseButton.onDown.add(tester, self);
       
     function over(item){
           item.alpha=.5;
@@ -115,15 +120,16 @@ Jumper.Play.prototype = {
         
         
       
-        // Then add the menu
-        menu = game.add.sprite(w/2, h/2, 'menu');
-        menu.fixedToCamera = true;
-        menu.anchor.setTo(0.5, 0.5);
+        //Then add the menu
+        //menu = game.add.sprite(0, 0, 'menu');
+        //menu.inputEnabled = true;
+        //menu.fixedToCamera = true;
+        //menu.anchor.setTo(0.5, 0.5);
 
         // And a label to illustrate which menu item was chosen. (This is not necessary)
-        choiseLabel = game.add.text(w/2, h-150, 'Click outside menu to continue', { font: '15px Arial', fill: '#fff' });
-        choiseLabel.fixedToCamera = true;
-        choiseLabel.anchor.setTo(0.5, 0.5);
+        //choiseLabel = game.add.text(w/2, h-150, 'Click outside menu to continue', { font: '15px Arial', fill: '#fff' });
+        //choiseLabel.fixedToCamera = true;
+        //choiseLabel.anchor.setTo(0.5, 0.5);
     });
 
     // Add a input listener that can help us return from being paused
@@ -134,6 +140,7 @@ Jumper.Play.prototype = {
         // Only act if paused
         if(game.paused){
             // Calculate the corners of the menu
+        /*    
             var x1 = w/2 - 270/2, x2 = w/2 + 270/2,
                 y1 = h/2 - 180/2, y2 = h/2 + 180/2;
 
@@ -154,12 +161,12 @@ Jumper.Play.prototype = {
             }
             else{
                 // Remove the menu and the label
-                menu.destroy();
+          
                 choiseLabel.destroy();
-
+        */
                 // Unpause the game
                 game.paused = false;
-            }
+            
         }
     };  
       
