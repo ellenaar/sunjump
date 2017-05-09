@@ -5,20 +5,29 @@ var Jumper = function() {};
 Jumper.Play = function() {};
 
 Jumper.Play.prototype = {
-    
+
   preload: function() {
     this.load.image( 'playerRight', 'lobbari_right.png' );
     this.load.image( 'playerLeft', 'lobbari_left.png' );
     this.load.image( 'panel', 'rsz_170-solar-panel-hz.png' );
     this.load.image( 'peat', 'tekstuuri.png')
     this.load.image('background', 'Sunrise-clipart-2.jpg');
-    this.load.image('spring', 'boost.png')
-    this.load.image('musicIcon', 'nuottiavain1.png')
+    this.load.image('spring', 'boost.png');
+    this.load.image('musicIcon', 'nuottiavain1.png');
+    this.load.image('shoe', 'shoes.png');
     game.load.image('menu', 'number-buttons-90x90.png', 270, 180);
-    game.load.audio('music', 'shooting-stars.mp3')
+    game.load.audio('music', 'shooting-stars.mp3');
+    this.load.audio('shoeSound', 'aaniefekti.mp3');
   },
+ 
+
+
+
     
   create: function() {
+
+
+    shoeSound = game.add.audio('shoeSound');
 
     // background picture
     var bg = game.add.tileSprite(0, 0, 300, 600,('background'));
@@ -172,6 +181,7 @@ Jumper.Play.prototype = {
       
   },
 
+
   update: function() {
 
 
@@ -194,6 +204,7 @@ Jumper.Play.prototype = {
     // hero collisions and movement
     this.physics.arcade.collide( this.hero, this.platforms );
     this.physics.arcade.collide( this.hero, this.springs );
+    this.physics.arcade.collide(this.hero, this.shoes);
     this.heroMove();
 
     // for each plat form, find out which is the highest
@@ -222,6 +233,8 @@ Jumper.Play.prototype = {
             this.fakesCreateOne ( this.rnd.integerInRange( 0, this.world.width - 50), this.fakePlatformYMin - 100, 1);
         }
     }, this)
+
+    
   },
 
   shutdown: function() {
@@ -248,6 +261,10 @@ Jumper.Play.prototype = {
     this.fakePlatforms = this.add.group();
     this.fakePlatforms.enableBody = true;
     this.fakePlatforms.createMultiple( 100, 'peat' );
+
+    this.shoes = this.add.group();
+    this.shoes.enableBody = true;
+    this.shoes.createMultiple(20, 'shoe');
     // create the base platform, with buffer on either side so that the hero doesn't fall through
     this.platformsCreateOne( -16, this.world.height - 16, this.world.width + 16 );
     // create a batch of platforms that start to move up the level
@@ -260,6 +277,9 @@ Jumper.Play.prototype = {
       for( var i = 0; i < 20; i++ ) {
       this.springsCreateOne( this.rnd.integerInRange( 0, this.world.width - 50 ), this.world.height - 1000 - 975 * i, 1 );
         }
+
+        this.shoesCreateOne(this.rnd.integerInRange(0,this.world.width - 50), 200 , 1);
+    
   },
 
   platformsCreateOne: function( x, y, width ) {
@@ -293,6 +313,17 @@ Jumper.Play.prototype = {
     return spring;
   },
 
+  shoesCreateOne: function(x,y){
+    var shoe = this.shoes.getFirstDead();
+    shoe.reset(x,y);
+    shoe.scale.x = 1
+    shoe.scale.y = 1
+    shoe.body.immovable = true;
+    return shoe;
+  },
+
+
+
   heroCreate: function() {
     // basic hero setup
     this.hero = game.add.sprite( this.world.centerX, this.world.height - 46, 'playerRight' );
@@ -311,27 +342,41 @@ Jumper.Play.prototype = {
     this.hero.body.checkCollision.right = false;
   },
 
+  shoeTurbo: function(){
+    boostMultiplier = 1;
+  },
+
   heroMove: function() {
-    // handle the left and right movement of the hero
+
     if( this.cursor.left.isDown ) {
-      this.hero.body.velocity.x = -200;
-        this.hero.loadTexture('playerLeft', 0, false);
+      this.hero.body.velocity.x = -200 * boostMultiplier;
+        this.hero.loadTexture('playerLeft', 0, false)
     } else if( this.cursor.right.isDown ) {
-      this.hero.body.velocity.x = 200;
+      this.hero.body.velocity.x = 200 *boostMultiplier ;
         this.hero.loadTexture('playerRight', 0, false);
     } else {
       this.hero.body.velocity.x = 0;
     }
       
-    // handle hero jumping
+    if(this.physics.arcade.collide(this.hero, this.shoes)){
+        this.hero.body.velocity.y = -600;
+        //game.time.events.add(Phaser.Timer.Second * 10, functionShoes, this);
+        shoeSound.play();
+        game.camera.flash(0xff0000,500);
+        boostMultiplier = 2;
+        game.time.events.add(Phaser.Timer.SECOND * 8, this.shoeTurbo, this);
+
+    }
+
+
       if(this.physics.arcade.collide( this.hero, this.springs )) {
        this.hero.body.velocity.y = -600;
     } else if(this.hero.body.touching.down && this.physics.arcade.collide( this.hero, this.platforms )) {
-        this.hero.body.velocity.y = -350;
+        this.hero.body.velocity.y = -350 * boostMultiplier;
     } else if(this.hero.body.touching.down && this.cameraYMin == 84) {
       this.hero.body.velocity.y = 0;
     } else if(this.hero.body.touching.down){
-        this.hero.body.velocity.y = -350;
+        this.hero.body.velocity.y = -350 * boostMultiplier;
     }
     
     // wrap world coordinated so that you can warp from left to right and right to left
@@ -350,6 +395,8 @@ Jumper.Play.prototype = {
     }
   }
 }
+
+var boostMultiplier = 1;
 
 var game = new Phaser.Game( 300, 500, Phaser.CANVAS, '' );
 game.state.add( 'Play', Jumper.Play );
