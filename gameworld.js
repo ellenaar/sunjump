@@ -348,6 +348,7 @@ Jumper.Play.prototype = {
         if(localStorage.getItem("Highscore") == String(NaN) || localStorage.getItem("Highscore") < scoreText){
             localStorage.setItem("Highscore", scoreText);
         } 
+        this.shoeTurbo();
       this.state.start( 'Highscore' );
     }
   }
